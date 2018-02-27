@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Entity;
+namespace Rebelion\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * This is a dummy entity. Remove it!
+ * This is a dummy entity. Remove it! Or not...
  *
  * @ApiResource
  * @ORM\Entity

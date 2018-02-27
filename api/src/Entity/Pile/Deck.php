@@ -1,0 +1,30 @@
+<?php
+
+namespace Rebelion\Entity\Pile;
+
+use Rebelion\Abstracts\CardContainerAbstract;
+use Rebelion\Traits\DeckTrait;
+use Rebelion\Traits\DescribableTrait;
+use Rebelion\Traits\NameableTrait;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Class Deck
+ *
+ * @ORM\Entity(repositoryClass="Rebelion\Repository\DeckRepository")
+ * @UniqueEntity(
+ *     "name",
+ *      message="This name is already taken"
+ * )
+ * @ORM\HasLifecycleCallbacks()
+ *
+ * @package Rebelion\Entity
+ */
+class Deck extends CardContainerAbstract
+{
+    use NameableTrait;
+    use DescribableTrait;
+    use DeckTrait;
+}
