@@ -8,11 +8,11 @@
 
 namespace Rebelion\Entity\Player;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class Human
- *
+ * @ApiResource
  * @ORM\Entity(repositoryClass="Rebelion\Repository\HumanRepository")
  * @ORM\HasLifecycleCallbacks()
  *

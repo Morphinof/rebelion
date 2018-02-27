@@ -2,6 +2,7 @@
 
 namespace Rebelion\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Rebelion\Traits\EntityTrait;
 use Rebelion\Traits\SlugableNameTrait;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,6 +15,7 @@ use Symfony\Component\Validator\{
 
 
 /**
+ * @ApiResource
  * @ORM\Entity(repositoryClass="Rebelion\Repository\CardCategoryRepository")
  * @ORM\HasLifecycleCallbacks()
  */

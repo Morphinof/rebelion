@@ -2,6 +2,7 @@
 
 namespace Rebelion\Entity\Container;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Rebelion\Abstracts\ProxyEffectContainerAbstract;
 use Rebelion\Traits\CardTrait;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
@@ -14,6 +15,7 @@ use Symfony\Component\Validator\{
 };
 
 /**
+ * @ApiResource
  * @ORM\Entity(repositoryClass="Rebelion\Repository\CardRepository")
  * @UniqueEntity(
  *     "name",

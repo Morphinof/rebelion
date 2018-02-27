@@ -2,6 +2,7 @@
 
 namespace Rebelion\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Rebelion\Traits\RaceTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\{
@@ -10,8 +11,7 @@ use Gedmo\Mapping\{
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Race
- *
+ * @ApiResource
  * @ORM\Entity(repositoryClass="Rebelion\Repository\RaceRepository")
  * @ORM\HasLifecycleCallbacks()
  *

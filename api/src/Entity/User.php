@@ -2,12 +2,12 @@
 
 namespace Rebelion\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Rebelion\Traits\UserTrait;
 
 /**
- * Class User
- *
+ * @ApiResource
  * @ORM\Entity(repositoryClass="Rebelion\Repository\UserRepository")
  * @ORM\HasLifecycleCallbacks()
  *

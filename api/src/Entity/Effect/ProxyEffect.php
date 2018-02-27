@@ -2,10 +2,12 @@
 
 namespace Rebelion\Entity\Effect;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Rebelion\Traits\ProxyEffectTrait;
 
 /**
+ * @ApiResource
  * @ORM\Entity(repositoryClass="Rebelion\Repository\ProxyEffectRepository")
  * @ORM\HasLifecycleCallbacks()
  */

@@ -2,13 +2,13 @@
 
 namespace Rebelion\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Rebelion\Traits\CharacteristicsTrait;
 use Rebelion\Traits\EntityTrait;
 
 /**
- * Class Characteristics
- *
+ * @ApiResource
  * @ORM\Entity(repositoryClass="Rebelion\Repository\CharacteristicsRepository")
  * @ORM\HasLifecycleCallbacks()
  *
@@ -20,7 +20,7 @@ class Characteristics
     use CharacteristicsTrait;
 
     /**
-     * @param $race
+     * @param Race $race
      *
      * @throws \ReflectionException
      */

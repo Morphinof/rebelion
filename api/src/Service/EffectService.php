@@ -11,7 +11,6 @@ namespace Rebelion\Service;
 use Rebelion\Abstracts\ServiceAbstract;
 use Rebelion\Annotations\EffectAnnotation;
 use Rebelion\Entity\Action\PlayCard;
-use Rebelion\Entity\Container\Card;
 use Rebelion\Entity\Effect\Effect;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,8 +21,6 @@ use Rebelion\Event\Combat\ProxyEffectResolved;
 use Rebelion\Exceptions\EffectResolveException;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\Form\Form;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
 class EffectService extends ServiceAbstract
@@ -198,32 +195,5 @@ class EffectService extends ServiceAbstract
         }
 
         return $parameters;
-    }
-
-    /**
-     * @param Card          $card
-     * @param FormInterface $form
-     */
-    public function saveCardEffects(Card $card, FormInterface $form): void
-    {
-        $parameters = [];
-        foreach ($form->all() as $child) {
-            if ($child instanceof Form) {
-                $matches = [];
-                if (preg_match('/^proxy_effect_(.*)/', $child->getConfig()->getName(), $matches)) {
-                    $proxyEffectId = $matches[1];
-
-                    /** @var ProxyEffect $proxyEffect */
-                    $proxyEffect = $this->em->getRepository('Rebelion:Effect\ProxyEffect')->find($proxyEffectId);
-
-                    $parameters['value'] = $child->getData();
-
-                    $proxyEffect->setParameters($parameters);
-
-                    $this->em->persist($proxyEffect);
-                    $this->em->flush();
-                }
-            }
-        }
     }
 }

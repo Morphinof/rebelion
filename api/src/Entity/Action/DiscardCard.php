@@ -2,10 +2,12 @@
 
 namespace Rebelion\Entity\Action;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 use Rebelion\Entity\Container\ProxyCard;
 
 /**
+ * @ApiResource
  * @ORM\Entity(repositoryClass="Rebelion\Repository\DiscardCardRepository")
  */
 class DiscardCard extends Action

@@ -2,13 +2,12 @@
 
 namespace Rebelion\Entity;
 
-use Rebelion\Traits\EntityTrait;
+use ApiPlatform\Core\Annotation\ApiResource;
 use Rebelion\Traits\TurnTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class Turn
- *
+ * @ApiResource
  * @ORM\Entity(repositoryClass="Rebelion\Repository\CombatTurnRepository")
  * @ORM\HasLifecycleCallbacks()
  *

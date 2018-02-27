@@ -2,6 +2,7 @@
 
 namespace Rebelion\Entity\Pile;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Rebelion\Abstracts\CardContainerAbstract;
 use Rebelion\Traits\DeckTrait;
 use Rebelion\Traits\DescribableTrait;
@@ -11,8 +12,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Deck
- *
+ * @ApiResource
  * @ORM\Entity(repositoryClass="Rebelion\Repository\DeckRepository")
  * @UniqueEntity(
  *     "name",

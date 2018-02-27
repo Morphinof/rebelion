@@ -2,6 +2,7 @@
 
 namespace Rebelion\Entity\Effect;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Rebelion\Traits\EffectTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -10,8 +11,7 @@ use Symfony\Component\Validator\{
 };
 
 /**
- * Class Effect
- *
+ * @ApiResource
  * @ORM\Entity(repositoryClass="Rebelion\Repository\EffectRepository")
  * @ORM\HasLifecycleCallbacks()
  * @UniqueEntity(

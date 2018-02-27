@@ -44,10 +44,10 @@ services:
         # In production, you may want to use a managed database service
         image: postgres:9.6-alpine
         environment:
-            - POSTGRES_DB=api
-            - POSTGRES_USER=api-platform
+            - POSTGRES_DB=rebelion
+            - POSTGRES_USER=rebelion
             # You should definitely change the password in production
-            - POSTGRES_PASSWORD=!ChangeMe!
+            - POSTGRES_PASSWORD=rebelion
         volumes:
             - db-data:/var/lib/postgresql/data:rw
             # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!

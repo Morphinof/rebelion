@@ -2,8 +2,8 @@
 
 namespace Rebelion\Entity\Container;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
-use Rebelion\Abstracts\ProxyEffectContainerAbstract;
 use Rebelion\Traits\PositionableTrait;
 use Rebelion\Traits\ProxyCardTrait;
 use Symfony\Component\Validator\{
@@ -12,6 +12,7 @@ use Symfony\Component\Validator\{
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
+ * @ApiResource
  * @ORM\Entity(repositoryClass="Rebelion\Repository\ProxyCardRepository")
  * @ORM\HasLifecycleCallbacks()
  */

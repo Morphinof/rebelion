@@ -3,6 +3,9 @@
 parameters:
     locale: 'en'
 
+imports:
+    - { resource: 'packages/doctrine_extensions.yaml' }
+
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -21,8 +24,136 @@ services:
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     Rebelion\Controller\:
-        resource: '../src/Controller'
+        resource: '../src/Controller/*'
         tags: ['controller.service_arguments']
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    # Services
+    Rebelion\Service\ActionService\:
+        resource: '../src/Service/ActionService.php'
+        public: true
+
+    Rebelion\Service\TurnService\:
+        resource: '../src/Service/TurnService.php'
+        public: true
+        autowire: false
+        bind:
+            $entityManager: '@Doctrine\ORM\EntityManagerInterface'
+            $logger: '@Psr\Log\LoggerInterface'
+            $registry: '@Symfony\Component\Workflow\Registry'
+
+    Rebelion\Service\CombatService\:
+        resource: '../src/Service/CombatService.php'
+        public: true
+        autowire: false
+        bind:
+            $entityManager: '@Doctrine\ORM\EntityManagerInterface'
+            $logger: '@Psr\Log\LoggerInterface'
+            $registry: '@Symfony\Component\Workflow\Registry'
+            $turnService: '@Rebelion\Service\TurnService'
+            $effectService: '@Rebelion\Service\EffectService'
+            $dispatcher: '@Symfony\Component\EventDispatcher\EventDispatcherInterface'
+
+    Rebelion\Service\EffectResolverService\:
+        resource: '../src/Service/EffectResolverService.php'
+        public: true
+        autowire: false
+        bind:
+            $entityManager: '@Doctrine\ORM\EntityManagerInterface'
+            $dispatcher: '@Symfony\Component\EventDispatcher\EventDispatcherInterface'
+
+    Rebelion\Service\EffectService\:
+        resource: '../src/Service/EffectService.php'
+        public: true
+        autowire: false
+        bind:
+            $translator: '@translator'
+            $logger: '@Psr\Log\LoggerInterface'
+            $entityManager: '@Doctrine\ORM\EntityManagerInterface'
+            $annotationReader: '@Doctrine\Common\Annotations\Reader'
+            $effectResolver: '@Rebelion\Service\EffectResolverService'
+            $dispatcher: '@Symfony\Component\EventDispatcher\EventDispatcherInterface'
+
+    Rebelion\Event\GenericWorkflowLogger\:
+        resource: '../src/Event/GenericWorkflowLogger.php'
+        public: true
+        autowire: false
+        bind:
+            $logger: '@Psr\Log\LoggerInterface'
+        tags:
+            - kernel.event_subscriber
+
+    # Controllers
+    Rebelion\Controller\AbstractRebelionController\:
+        resource: '../src/Controller/AbstractRebelionController.php'
+        tags: ['controller.service_arguments']
+        bind:
+            $translator: '@translator'
+
+    Rebelion\Controller\CombatController\:
+        resource: '../src/Controller/CombatController.php'
+        tags: ['controller.service_arguments']
+        bind:
+            $translator: '@translator'
+            $combatService: '@Rebelion\Service\CombatService'
+            $turnService: '@Rebelion\Service\TurnService'
+
+    # Subscribers
+    Rebelion\Event\Subscriber\CombatSubscriber\:
+        resource: '../src/Event/Subscriber/CombatSubscriber.php'
+        bind:
+            $entityManager: '@Doctrine\ORM\EntityManagerInterface'
+            $logger: '@Psr\Log\LoggerInterface'
+            $dispatcher: '@Symfony\Component\EventDispatcher\EventDispatcherInterface'
+            $combatService: '@Rebelion\Service\CombatService'
+            $turnService: '@Rebelion\Service\TurnService'
+        tags:
+            - { name: 'kernel.event_listener', event: 'rebelion.event.combat.dead_target', method: 'onDeadTarget' }
+            - { name: 'kernel.event_listener', event: 'rebelion.event.combat.draw_pile_is_empty', method: 'onEmptyDrawPile' }
+            - { name: 'kernel.event_listener', event: 'rebelion.event.combat.end', method: 'onEnd' }
+            - { name: 'kernel.event_listener', event: 'rebelion.event.combat.init', method: 'onInit' }
+            - { name: 'kernel.event_listener', event: 'rebelion.event.combat.lose', method: 'onLose' }
+            - { name: 'kernel.event_listener', event: 'rebelion.event.combat.play_turn', method: 'onPlayTurn' }
+            - { name: 'kernel.event_listener', event: 'rebelion.event.combat.next_turn', method: 'onNextTurn' }
+            - { name: 'kernel.event_listener', event: 'rebelion.event.combat.proxy_card.played', method: 'onProxyCardPlayed' }
+            - { name: 'kernel.event_listener', event: 'rebelion.event.combat.proxy_card.discarded', method: 'onProxyCardDiscarded' }
+            - { name: 'kernel.event_listener', event: 'rebelion.event.combat.proxy_effect.resolved', method: 'onProxyEffectResolved' }
+            - { name: 'kernel.event_listener', event: 'rebelion.event.combat.start_turn', method: 'onStartTurn' }
+            - { name: 'kernel.event_listener', event: 'rebelion.event.combat.win', method: 'onWin' }
+
+    Rebelion\Event\Subscriber\TurnSubscriber\:
+        resource: '../src/Event/Subscriber/TurnSubscriber.php'
+        bind:
+            $entityManager: '@Doctrine\ORM\EntityManagerInterface'
+            $logger: '@Psr\Log\LoggerInterface'
+            $dispatcher: '@Symfony\Component\EventDispatcher\EventDispatcherInterface'
+            $combatService: '@Rebelion\Service\CombatService'
+            $turnService: '@Rebelion\Service\TurnService'
+        tags:
+            - { name: 'kernel.event_listener', event: 'rebelion.event.combat.turn.draw', method: 'onDraw' }
+            - { name: 'kernel.event_listener', event: 'rebelion.event.combat.turn.end', method: 'onEnd' }
+            - { name: 'kernel.event_listener', event: 'rebelion.event.combat.turn.init', method: 'onInit' }
+            - { name: 'kernel.event_listener', event: 'rebelion.event.combat.turn.main', method: 'onMain' }
+
+    # Twig Extension
+    Rebelion\Twig\CardExtension\:
+        resource: '../src/Twig/CardExtension.php'
+        bind:
+            $translator: '@translator'
+            $effectService: '@Rebelion\Service\EffectService'
+        tags: ['twig.extension']
+
+    # Fixtures
+    Rebelion\DataFixtures\EffectsFixtures\:
+        resource: '../src/DataFixtures/EffectsFixtures.php'
+        bind:
+            $effectService: '@Rebelion\Service\EffectService'
+
+    # Abstracts
+    Rebelion\Abstracts\EffectAbstract\:
+        resource: '../src/Abstracts/EffectAbstract.php'
+        bind:
+            $entityManager: '@Doctrine\ORM\EntityManagerInterface'
+            $dispatcher: '@Symfony\Component\EventDispatcher\EventDispatcherInterface'

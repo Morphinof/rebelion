@@ -1,2 +1,49 @@
 framework:
-    workflows: ~
+    workflows:
+        combat:
+            type: 'state_machine'
+            supports:
+                - Rebelion\Entity\Combat
+            marking_store:
+                type: 'single_state'
+                arguments:
+                    - 'phase'
+            places:
+                - init
+                - start_turn
+                - play_turn
+                - end_combat
+                - sleeping
+            transitions:
+                start_turn:
+                    from: init
+                    to: start_turn
+                play_turn:
+                    from: start_turn
+                    to: play_turn
+                end_combat:
+                    from: play_turn
+                    to: end_combat
+                sleeping:
+                    from: play_turn
+                    to: sleeping
+
+        turn:
+            type: 'state_machine'
+            supports:
+                - Rebelion\Entity\Turn
+            places:
+                - init
+                - draw
+                - main
+                - end
+            transitions:
+                draw:
+                    from: init
+                    to: draw
+                main:
+                    from: draw
+                    to: main
+                end:
+                    from: main
+                    to: end

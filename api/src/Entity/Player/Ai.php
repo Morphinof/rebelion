@@ -2,11 +2,11 @@
 
 namespace Rebelion\Entity\Player;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Class Ai
- *
+ * @ApiResource
  * @ORM\Entity(repositoryClass="Rebelion\Repository\AiRepository")
  * @ORM\HasLifecycleCallbacks()
  *
