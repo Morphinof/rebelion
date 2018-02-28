@@ -14,6 +14,7 @@ RUN set -xe \
 	&& docker-php-ext-install \
 		intl \
 		pdo_pgsql \
+		pdo_mysql \
 		zip \
 	&& pecl install \
 		apcu-${APCU_VERSION} \
