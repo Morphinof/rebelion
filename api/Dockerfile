@@ -52,3 +52,5 @@ COPY . ./
 RUN mkdir -p var/cache var/logs var/sessions \
 	&& composer dump-autoload --classmap-authoritative --no-dev \
 	&& chown -R www-data var
+
+#CMD php bin/console doctrine:migrations:migrate --no-interaction

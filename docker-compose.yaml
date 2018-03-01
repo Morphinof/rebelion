@@ -44,18 +44,21 @@ services:
         # In production, you may want to use a managed database service
         image: mysql:5.7
         environment:
-            - MYSQL_DB=rebelion
-            - MYSQL_USER=admin
-            # You should definitely change the password in production
-            - MYSQL_ROOT_PASSWORD=admin
+            MYSQL_DATABASE: rebelion
+            MYSQL_USER: rebelion
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_PASSWORD: rebelion
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
         volumes:
             - db-data:/var/mysql/data:rw
             #- db-data:/var/lib/postgresql/data:rw
             # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
             # - ./docker/db/data:/var/lib/postgresql/data:rw
         ports:
-            - "3306:3306"
+            - "33306:3306"
             #- "5432:5432"
+        expose:
+            - 33306
 
     client:
         # Use a static website hosting service in production
@@ -69,7 +72,7 @@ services:
             - ./client:/usr/src/client:rw,cached
             - /usr/src/client/node_modules
         ports:
-            - "80:3000"
+            - "8000:3000"
 
     admin:
         # Use a static website hosting service in production
@@ -83,7 +86,7 @@ services:
             - ./admin:/usr/src/admin:rw,cached
             - /usr/src/admin/node_modules
         ports:
-            - "81:3000"
+            - "8001:3000"
 
     h2-proxy:
         # Don't use this proxy in prod

@@ -22,8 +22,8 @@ script:
   - sleep 30
   - docker-compose exec -T php composer req sensiolabs/security-checker
   - docker-compose exec -T php bin/console security:check
-  - curl http://localhost # Client
-  - curl http://localhost:81 # Admin
+  - curl http://localhost:8000 # Client
+  - curl http://localhost:8001 # Admin
   - curl http://localhost:8080 # API
   - curl http://localhost:8081 # Varnish
   - curl -k https://localhost # Client (HTTP/2)
