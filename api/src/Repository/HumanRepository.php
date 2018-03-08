@@ -2,7 +2,7 @@
 
 namespace Rebelion\Repository;
 
-use Rebelion\Entity\Human;
+use Rebelion\Entity\Player\Human;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 

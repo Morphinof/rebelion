@@ -28,9 +28,9 @@ trait EntityTrait
     private $id;
 
     /**
-     * @return integer
+     * @return null|integer
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
